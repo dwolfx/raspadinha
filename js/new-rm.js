@@ -1,7 +1,7 @@
 var app = new PIXI.Application({
   width: 300,
   height: 250,
-  backgroundColor: 0xc1c1c1
+  backgroundColor: 0xff8000
 })
 document.body.appendChild(app.view);
 
