@@ -29,11 +29,10 @@ app.stage.on('pointerup', pointerUp);
 app.stage.on('pointermove', pointerMove);
 
 var dragging = false;
-
 function pointerMove(event) {
     if (dragging) {
         brush.position.copyFrom(event.data.global);
-        app.renderer.render(brush, renderTexture, false, null, false);
+        app.renderer.render(brush, renderTexture, false, null, false)
     }
 }
 
@@ -44,4 +43,5 @@ function pointerDown(event) {
 
 function pointerUp(event) {
     dragging = false;
+    console.log(app.renderer.extract)
 }
