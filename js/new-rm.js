@@ -42,7 +42,7 @@ app.stage.on('pointeroutside', pointerOut);
 var dragging = false;
 function pointerMove(event) {
     if (dragging) {
-        console.log(app.renderer.plugins.extract.pixels(raspar))
+        
         brush.position.copyFrom(event.data.global);
         app.renderer.render(brush, renderTexture, false, null, false)
         posX = Math.round(event.data.global.x)
