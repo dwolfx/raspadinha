@@ -18,6 +18,8 @@ var renderTextureSprite = new PIXI.Sprite(renderTexture);
 app.stage.addChild(renderTextureSprite);
 raspar.mask = renderTextureSprite;
 
+console.log(renderTexture)
+
 var brush = new PIXI.Graphics();
 brush.beginFill(0xbbffff);
 brush.drawCircle(0, 0, 30);
@@ -31,11 +33,11 @@ app.stage.on('pointermove', pointerMove);
 var dragging = false;
 
 function pointerMove(event) {
-    if (dragging) {
-      console.log(event.data.global)
-        brush.position.copyFrom(event.data.global);
-        app.renderer.render(brush, renderTexture, false, null, false);
-    }
+  if (dragging) {
+    console.log(event.data.global)
+    brush.position.copyFrom(event.data.global);
+    app.renderer.render(brush, renderTexture, false, null, false);
+  }
 }
 
 function pointerDown(event) {
@@ -46,5 +48,5 @@ function pointerDown(event) {
 
 function pointerUp(event) {
   console.log('soltou')
-    dragging = false;
+  dragging = false;
 }
