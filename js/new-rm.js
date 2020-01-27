@@ -5,22 +5,31 @@ var app = new PIXI.Application({
 })
 document.body.appendChild(app.view);
 
+var WIDTH = 270;
+var HEIGHT = 110;
+var TOP_X = 150;
+var TOP_Y = 160;
 var background = PIXI.Sprite.from("../images/new-ifoods-rm.png")
 var raspar = PIXI.Sprite.from("../images/new-raspar-rm.png")
+
 app.stage.addChild(background)
 app.stage.addChild(raspar)
 raspar.anchor.set(0.5);
-raspar.position.x = 150;
-raspar.position.y = 160;
-var renderTexture = PIXI.RenderTexture.create(app.screen.width, app.screen.height);
+raspar.position.x = TOP_X;
+raspar.position.y = TOP_Y;
+var localBounds = raspar.getLocalBounds();
+var renderTexture = PIXI.RenderTexture.create(WIDTH, HEIGHT);
 var renderTextureSprite = new PIXI.Sprite(renderTexture);
+
 var posX
 var posY
 var raio = 20
 var porc = 0
 var porcAtual
-
 app.stage.addChild(renderTextureSprite);
+renderTextureSprite.anchor.set(0.5);
+renderTextureSprite.position.x = TOP_X;
+renderTextureSprite.position.y = TOP_Y;
 raspar.mask = renderTextureSprite;
 
 var brush = new PIXI.Graphics();
@@ -44,19 +53,20 @@ function pointerMove(event) {
     if (dragging) {
         
         brush.position.copyFrom(event.data.global);
+        console.log(brush.position);
         app.renderer.render(brush, renderTexture, false, null, false)
         posX = Math.round(event.data.global.x)
         posY = Math.round(event.data.global.y)
         //console.log(`Posição X = ${Math.round(posX)} | Posição Y = ${Math.round(posY)}`)
         // if(posY >= 87 && posY <= (235)){
-        if((posX >= 19-raio && posX <= 276+raio) && (posY >= 108-raio && posY <= 210+raio)){
-            porcAtual = 10
-            if (porcAtual >= porc){
-                console.log(`${porc}`)
-                porc = porcAtual
-                console.log(`${porc}`)
-            }
-        }
+        // if((posX >= 19-raio && posX <= 276+raio) && (posY >= 108-raio && posY <= 210+raio)){
+        //     porcAtual = 10
+        //     if (porcAtual >= porc){
+        //         // console.log(`${porc}`)
+        //         porc = porcAtual
+        //         // console.log(`${porc}`)
+        //     }
+        // }
         
     }
 }
