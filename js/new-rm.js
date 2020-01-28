@@ -4,7 +4,7 @@ var HEIGHT = 110;
 var TOP_X = 150;
 var TOP_Y = 160;
 var BYTES_PER_PIXEL = 4;
-var REVEAL_PERCENTAGE = 75;
+var REVEAL_PERCENTAGE = 60;
 var RADIUS = 20;
 var URL = 'https://g1.globo.com';
 
@@ -85,7 +85,18 @@ function reveal(renderTexture) {
   
   app.renderer.render(rect, renderTexture, false, null, false);
 
-  app.stage.on('pointerdown', function() {
-    window.open(URL, '_blank');
-  });
+  var click = document.createElement('a');
+  click.href = URL;
+  click.target = '_blank';
+  
+  var div = document.createElement('div');
+  div.style.width = '100vw';
+  div.style.height = '100vh';
+  div.style.position = 'fixed';
+  div.style.top = '0';
+  div.style.left = '0';
+
+  click.appendChild(div);
+  document.body.appendChild(click);
+  
 }
