@@ -86,6 +86,6 @@ function reveal(renderTexture) {
   app.renderer.render(rect, renderTexture, false, null, false);
 
   app.stage.on('pointerdown', function() {
-    window.location.assign(url)(URL, '_blank');
+    window.location.assign(URL, '_blank');
   });
 }
