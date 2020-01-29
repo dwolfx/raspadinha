@@ -1,8 +1,8 @@
 
-var WIDTH = 200;
-var HEIGHT = 270;
+var WIDTH = 270;
+var HEIGHT = 290;
 var TOP_X = 150;
-var TOP_Y = 350;
+var TOP_Y = 355;
 var BYTES_PER_PIXEL = 4;
 var REVEAL_PERCENTAGE = 60;
 var RADIUS = 20;
@@ -17,11 +17,11 @@ var app = new PIXI.Application({
 });
 document.body.appendChild(app.view);
 
-var background = PIXI.Sprite.from('../images/bg-ifoods.png');
+var background = PIXI.Sprite.from('../images/raspadinha-bg-rm.png');
 
 app.stage.addChild(background);
 
-var scratch = PIXI.Sprite.from('../images/raspar.png');
+var scratch = PIXI.Sprite.from('../images/ads.gif');
 
 app.stage.addChild(scratch);
 scratch.anchor.set(0.5);
@@ -49,8 +49,8 @@ function pointerMove(event) {
   if (!dragging) return;
 
   var pos = event.data.getLocalPosition(renderTextureSprite);
-  var x = (pos.x + TOP_X) - RADIUS * 2.5;
-  var y = (pos.y + TOP_Y / 2) - RADIUS * 2;
+  var x = (pos.x + TOP_X) - RADIUS / 1.5;
+  var y = (pos.y + TOP_Y / 2) - RADIUS * 1.5;
 
   brush.position.copyFrom({ x: x, y: y });
 

@@ -1,3 +1,7 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/5.2.0/pixi.js">
+</script>
+<script>
+
 
 var WIDTH = 270;
 var HEIGHT = 100;
@@ -6,7 +10,7 @@ var TOP_Y = 160;
 var BYTES_PER_PIXEL = 4;
 var REVEAL_PERCENTAGE = 60;
 var RADIUS = 20;
-var URL = 'https://g1.globo.com';
+var URL = '%%CLICK_URL_ESC%%%%DEST_URL%%';
 
 var dragging = true;
 
@@ -17,11 +21,11 @@ var app = new PIXI.Application({
 });
 document.body.appendChild(app.view);
 
-var background = PIXI.Sprite.from('../images/raspadinha-rm.png');
+var background = PIXI.Sprite.from('[%background%]');
 
 app.stage.addChild(background);
 
-var scratch = PIXI.Sprite.from('../images/raspadinha-cupom-rm.png');
+var scratch = PIXI.Sprite.from('[%cupom%]');
 
 app.stage.addChild(scratch);
 scratch.anchor.set(0.5);
@@ -100,3 +104,5 @@ function reveal(renderTexture) {
   document.body.appendChild(click);
   
 }
+
+</script>
