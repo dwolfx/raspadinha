@@ -13,15 +13,15 @@ var dragging = true;
 var app = new PIXI.Application({
   width: 300,
   height: 600,
-  backgroundColor: 0xc1c1c1
+  backgroundColor: 0xff8000
 });
 document.body.appendChild(app.view);
 
-var background = PIXI.Sprite.from('../images/raspadinha-bg-rm.png');
+var background = PIXI.Sprite.from('../images/pascoa-1.png');
 
 app.stage.addChild(background);
 
-var scratch = PIXI.Sprite.from('../images/ads.gif');
+var scratch = PIXI.Sprite.from('../images/pascoa-2.png');
 
 app.stage.addChild(scratch);
 scratch.anchor.set(0.5);
