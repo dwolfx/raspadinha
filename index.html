@@ -1,157 +1,179 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
-  <!-- <script src="https://pixijs.download/release/pixi.min.js"></script> -->
-  <!-- <script src="./js/pixi.min.js"></script> -->
-</head>
-<body>
-  <h1>--- Testando - 300x600 ---</h1>
-  <!-- <script src="./js/new-dev.js"></script> -->
-  <script>
-    function playGame() {
-      var WIDTH = 270;
-      var HEIGHT = 290;
-      var TOP_X = 150;
-      var TOP_Y = 355;
-      var BYTES_PER_PIXEL = 4;
-      var REVEAL_PERCENTAGE = 60;
-      var RADIUS = 20;
-      var URL = 'https://g1.globo.com';
-      var startedErasing = false;
-      var completedErasing = false;
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <!-- <script src="https://pixijs.download/release/pixi.min.js"></script> -->
+    <!-- <script src="./js/pixi.min.js"></script> -->
+  </head>
+  <body>
+    <h1>--- Testando - 300x600 ---</h1>
+    <!-- <script src="./js/new-dev.js"></script> -->
+    <script>
+      function playGame() {
+        var WIDTH = 270;
+        var HEIGHT = 290;
+        var TOP_X = 150;
+        var TOP_Y = 355;
+        var BYTES_PER_PIXEL = 4;
+        var REVEAL_PERCENTAGE = 60;
+        var RADIUS = 20;
+        var URL = "https://g1.globo.com";
+        var startedErasing = false;
+        var completedErasing = false;
+        var ua = "UA-65019374-4";
+        var categoryGA = "playable_ad";
+        var nomeGA = "rasp_globoplay-house";
+        // var anuncianteKrux = 'play_raspadinha'
+        // var campanhaKrux = 'play_raspadinha_house'
 
-      var dragging = true;
+        var dragging = true;
 
-      var app = new PIXI.Application({
-        width: 300,
-        height: 600,
-        backgroundColor: 0xff8000
-      });
+        var app = new PIXI.Application({
+          width: 300,
+          height: 600,
+          backgroundColor: 0xff8000
+        });
 
-      document.body.appendChild(app.view);
+        document.body.appendChild(app.view);
 
-      var background = PIXI.Sprite.from('../images/pascoa-1.png');
+        var background = PIXI.Sprite.from("../images/pascoa-1.png");
 
-      app.stage.addChild(background);
+        app.stage.addChild(background);
 
-      var scratch = PIXI.Sprite.from('../images/pascoa-2.png');
+        var scratch = PIXI.Sprite.from("../images/pascoa-2.png");
 
-      app.stage.addChild(scratch);
-      scratch.anchor.set(0.5);
-      scratch.position.x = TOP_X;
-      scratch.position.y = TOP_Y;
+        app.stage.addChild(scratch);
+        scratch.anchor.set(0.5);
+        scratch.position.x = TOP_X;
+        scratch.position.y = TOP_Y;
 
-      var renderTexture = PIXI.RenderTexture.create(WIDTH, HEIGHT);
-      var renderTextureSprite = new PIXI.Sprite(renderTexture);
+        var renderTexture = PIXI.RenderTexture.create(WIDTH, HEIGHT);
+        var renderTextureSprite = new PIXI.Sprite(renderTexture);
 
-      app.stage.addChild(renderTextureSprite);
-      renderTextureSprite.anchor.set(0.5);
-      renderTextureSprite.position.x = TOP_X;
-      renderTextureSprite.position.y = TOP_Y;
-      scratch.mask = renderTextureSprite;
+        app.stage.addChild(renderTextureSprite);
+        renderTextureSprite.anchor.set(0.5);
+        renderTextureSprite.position.x = TOP_X;
+        renderTextureSprite.position.y = TOP_Y;
+        scratch.mask = renderTextureSprite;
 
-      var brush = new PIXI.Graphics();
-      brush.beginFill(0xffffff);
-      brush.drawCircle(0, 0, RADIUS);
-      brush.endFill();
+        var brush = new PIXI.Graphics();
+        brush.beginFill(0xffffff);
+        brush.drawCircle(0, 0, RADIUS);
+        brush.endFill();
 
-      app.stage.interactive = true;
-      app.stage.on('pointermove', pointerMove);
+        app.stage.interactive = true;
+        app.stage.on("pointermove", pointerMove);
 
-      function pointerMove(event) {
-        if (!dragging) return;
+        function pointerMove(event) {
+          if (!dragging) return;
 
-        var pos = event.data.getLocalPosition(renderTextureSprite);
-        var x = (pos.x + TOP_X) - RADIUS / 1.5;
-        var y = (pos.y + TOP_Y / 2) - RADIUS * 1.5;
+          var pos = event.data.getLocalPosition(renderTextureSprite);
+          var x = pos.x + TOP_X - RADIUS / 1.5;
+          var y = pos.y + TOP_Y / 2 - RADIUS * 1.5;
 
-        brush.position.copyFrom({ x: x, y: y });
+          brush.position.copyFrom({ x: x, y: y });
 
-        app.renderer.render(brush, renderTexture, false, null, false);
+          app.renderer.render(brush, renderTexture, false, null, false);
 
-        var paintedPercentage = getPaintedPercentage(renderTexture);
-        
-        if (!startedErasing && paintedPercentage > 0){
-          console.log('1- Validar se é verdadeiro')
-          startedErasing = true
-        }
+          var paintedPercentage = getPaintedPercentage(renderTexture);
 
-        if (paintedPercentage >= REVEAL_PERCENTAGE) {
-          dragging = false;
-          reveal(renderTexture);
-        }
-      }
+          if (!startedErasing && paintedPercentage > 0) {
+            analytics('FirstInteraction')
+            startedErasing = true;
+          }
 
-      function getPaintedPercentage(renderTexture) {
-        var pixels = app.renderer.plugins.extract.pixels(renderTexture);
-        var total = pixels.length / BYTES_PER_PIXEL;
-        var sum = 0;
-
-        for (var i = 0; i < pixels.length; i += BYTES_PER_PIXEL) {
-          if (pixels[i + 3] === 255) {
-            sum++;
+          if (paintedPercentage >= REVEAL_PERCENTAGE) {
+            dragging = false;
+            reveal(renderTexture);
           }
         }
 
-        return Math.round(sum * 100 / total);
-      }
-      function reveal(renderTexture) {
-        var rect = new PIXI.Graphics();
+        function getPaintedPercentage(renderTexture) {
+          var pixels = app.renderer.plugins.extract.pixels(renderTexture);
+          var total = pixels.length / BYTES_PER_PIXEL;
+          var sum = 0;
 
-        rect.beginFill(0xffffff);
-        rect.drawRect(0, 0, app.screen.width, app.screen.height);
-        rect.endFill();
+          for (var i = 0; i < pixels.length; i += BYTES_PER_PIXEL) {
+            if (pixels[i + 3] === 255) {
+              sum++;
+            }
+          }
 
-        app.renderer.render(rect, renderTexture, false, null, false);
-
-        var click = document.createElement('a');
-        click.href = URL;
-        click.target = '_blank';
-
-        if (!completedErasing){
-          console.log('2- validação é falsa')
-          completedErasing = true
+          return Math.round((sum * 100) / total);
         }
+        function reveal(renderTexture) {
+          var rect = new PIXI.Graphics();
 
-        var div = document.createElement('div');
-        div.style.width = '100vw';
-        div.style.height = '100vh';
-        div.style.position = 'fixed';
-        div.style.top = '0';
-        div.style.left = '0';
+          rect.beginFill(0xffffff);
+          rect.drawRect(0, 0, app.screen.width, app.screen.height);
+          rect.endFill();
 
-        click.appendChild(div);
-        document.body.appendChild(click);
+          app.renderer.render(rect, renderTexture, false, null, false);
+
+          var click = document.createElement("a");
+          click.href = URL;
+          click.target = "_blank";
+
+          if (!completedErasing) {
+            analytics('CompletedInteraction')
+            completedErasing = true;
+          }
+
+          var div = document.createElement("div");
+          div.style.width = "100vw";
+          div.style.height = "100vh";
+          div.style.position = "fixed";
+          div.style.top = "0";
+          div.style.left = "0";
+
+          click.appendChild(div);
+          document.body.appendChild(click);
+        }
+        function analytics(i) {
+          if (i == "FirstInteraction") {
+            console.log('entrou 1')
+            ga("send", {
+              hitType: "event",
+              eventCategory: categoryGA,
+              eventAction: nomeGA,
+              eventLabel: "inicio_interacao"
+            });
+          } else if (i == "CompletedInteraction") {
+            console.log('entrou 2')
+            ga("send", {
+              hitType: "event",
+              eventCategory: categoryGA,
+              eventAction: nomeGA,
+              eventLabel: "termino_interacao"
+            });
+          }
+        }
+        (function(i, s, o, g, r, a, m) {
+          i["GoogleAnalyticsObject"] = r;
+          (i[r] =
+            i[r] ||
+            function() {
+              (i[r].q = i[r].q || []).push(arguments);
+            }),
+            (i[r].l = 1 * new Date());
+          (a = s.createElement(o)), (m = s.getElementsByTagName(o)[0]);
+          a.async = 1;
+          a.src = g;
+          m.parentNode.insertBefore(a, m);
+        })(
+          window,
+          document,
+          "script",
+          "https://www.google-analytics.com/analytics.js",
+          "ga"
+        );
+
+        ga("create", ua, "auto");
       }
-    }
-  </script>
-  <script src="./js/pixi.min.js" onload="playGame()"></script>
-  <script>
-    (function (i, s, o, g, r, a, m) {
-      i["GoogleAnalyticsObject"] = r;
-      (i[r] =
-        i[r] ||
-        function () {
-          (i[r].q = i[r].q || []).push(arguments);
-        }),
-        (i[r].l = 1 * new Date());
-      (a = s.createElement(o)), (m = s.getElementsByTagName(o)[0]);
-      a.async = 1;
-      a.src = g;
-      m.parentNode.insertBefore(a, m);
-    })(
-      window,
-      document,
-      "script",
-      "https://www.google-analytics.com/analytics.js",
-      "ga"
-    );
-
-    ga("create", "UA-296593-2", "auto");
-  </script>
-</body>
+    </script>
+    <script src="./js/pixi.min.js" onload="playGame()"></script>
+  </body>
 </html>
