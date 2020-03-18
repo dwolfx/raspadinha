@@ -1,47 +1,104 @@
-var app = new PIXI.Application({
-  width: 300,
-  height: 600,
-  backgroundColor: 0xc1c1c1
-})
-document.body.appendChild(app.view);
+function playGame() {
+  var WIDTH = 270;
+  var HEIGHT = 290;
+  var TOP_X = 150;
+  var TOP_Y = 355;
+  var BYTES_PER_PIXEL = 4;
+  var REVEAL_PERCENTAGE = 60;
+  var RADIUS = 20;
+  var URL = "https://g1.globo.com";
 
-var background = PIXI.Sprite.from("../images/bg-ifoods.png")
-var raspar = PIXI.Sprite.from("../images/raspar.png")
-app.stage.addChild(background)
-app.stage.addChild(raspar)
-raspar.anchor.set(0.5);
-raspar.position.x = 150;
-raspar.position.y = 350;
-var renderTexture = PIXI.RenderTexture.create(app.screen.width, app.screen.height);
-var renderTextureSprite = new PIXI.Sprite(renderTexture);
+  var dragging = true;
 
-app.stage.addChild(renderTextureSprite);
-raspar.mask = renderTextureSprite;
+  var app = new PIXI.Application({
+    width: 300,
+    height: 600,
+    backgroundColor: 0xff8000
+  });
 
-var brush = new PIXI.Graphics();
-brush.beginFill(0xffffff);
-brush.drawCircle(0, 0, 30);
-brush.endFill();
+  document.body.appendChild(app.view);
 
-app.stage.interactive = true;
-app.stage.on('pointerdown', pointerDown);
-app.stage.on('pointerup', pointerUp);
-app.stage.on('pointermove', pointerMove);
+  var background = PIXI.Sprite.from("../images/pascoa-1.png");
 
-var dragging = false;
+  app.stage.addChild(background);
 
-function pointerMove(event) {
-    if (dragging) {
-        brush.position.copyFrom(event.data.global);
-        app.renderer.render(brush, renderTexture, false, null, false);
+  var scratch = PIXI.Sprite.from("../images/pascoa-2.png");
+
+  app.stage.addChild(scratch);
+  scratch.anchor.set(0.5);
+  scratch.position.x = TOP_X;
+  scratch.position.y = TOP_Y;
+
+  var renderTexture = PIXI.RenderTexture.create(WIDTH, HEIGHT);
+  var renderTextureSprite = new PIXI.Sprite(renderTexture);
+
+  app.stage.addChild(renderTextureSprite);
+  renderTextureSprite.anchor.set(0.5);
+  renderTextureSprite.position.x = TOP_X;
+  renderTextureSprite.position.y = TOP_Y;
+  scratch.mask = renderTextureSprite;
+
+  var brush = new PIXI.Graphics();
+  brush.beginFill(0xffffff);
+  brush.drawCircle(0, 0, RADIUS);
+  brush.endFill();
+
+  app.stage.interactive = true;
+  app.stage.on("pointermove", pointerMove);
+
+  function pointerMove(event) {
+    if (!dragging) return;
+
+    var pos = event.data.getLocalPosition(renderTextureSprite);
+    var x = pos.x + TOP_X - RADIUS / 1.5;
+    var y = pos.y + TOP_Y / 2 - RADIUS * 1.5;
+
+    brush.position.copyFrom({ x: x, y: y });
+
+    app.renderer.render(brush, renderTexture, false, null, false);
+
+    if (getPaintedPercentage(renderTexture) >= REVEAL_PERCENTAGE) {
+      dragging = false;
+      reveal(renderTexture);
     }
-}
+  }
 
-function pointerDown(event) {
-    dragging = true;
-    pointerMove(event);
-}
+  function getPaintedPercentage(renderTexture) {
+    var pixels = app.renderer.plugins.extract.pixels(renderTexture);
+    var total = pixels.length / BYTES_PER_PIXEL;
+    var sum = 0;
 
-function pointerUp(event) {
-    dragging = false;
+    for (var i = 0; i < pixels.length; i += BYTES_PER_PIXEL) {
+      if (pixels[i + 3] === 255) {
+        sum++;
+      }
+    }
+
+    return Math.round((sum * 100) / total);
+  }
+
+  function reveal(renderTexture) {
+    var rect = new PIXI.Graphics();
+
+    rect.beginFill(0xffffff);
+    rect.drawRect(0, 0, app.screen.width, app.screen.height);
+    rect.endFill();
+
+    app.renderer.render(rect, renderTexture, false, null, false);
+
+    var click = document.createElement("a");
+    click.href = URL;
+    click.target = "_blank";
+
+    var div = document.createElement("div");
+    div.style.width = "100vw";
+    div.style.height = "100vh";
+    div.style.position = "fixed";
+    div.style.top = "0";
+    div.style.left = "0";
+
+    click.appendChild(div);
+    document.body.appendChild(click);
+  }
 }
+<script src="./js/pixi.min.js" onload="playGame()"></script>
