@@ -75,10 +75,10 @@
 
         var paintedPercentage = getPaintedPercentage(renderTexture);
         
-        // if (!startedErasing && paintedPercentage > 0){
-        //   console.log('1- Validar se é verdadeiro')
-        //   startedErasing = true
-        // }
+        if (!startedErasing && paintedPercentage > 0){
+          console.log('1- Validar se é verdadeiro')
+          startedErasing = true
+        }
 
         if (paintedPercentage >= REVEAL_PERCENTAGE) {
           dragging = false;
@@ -112,10 +112,10 @@
         click.href = URL;
         click.target = '_blank';
 
-        // if(completedErasing === false){
-        //   console.log('2- validação é falsa')
-        //   completedErasing = true
-        // }
+        if (!completedErasing){
+          console.log('2- validação é falsa')
+          completedErasing = true
+        }
 
         var div = document.createElement('div');
         div.style.width = '100vw';
