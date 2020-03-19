@@ -24,8 +24,8 @@
         var startedErasing = false;
         var completedErasing = false;
         var ua = "UA-65019374-4";
-        var categoryGA = "play_rasp";
-        var nomeGA = "rasp_globoplay-house";
+        var categoryGA = "playable_ad_rasp";
+        var nameGA = "rasp_globoplay-house";
         // var anuncianteKrux = 'play_raspadinha'
         // var campanhaKrux = 'play_raspadinha_house'
 
@@ -81,7 +81,7 @@
           var paintedPercentage = getPaintedPercentage(renderTexture);
 
           if (!startedErasing && paintedPercentage > 0) {
-            analytics('FirstInteraction')
+            analytics("FirstInteraction");
             startedErasing = true;
           }
 
@@ -118,7 +118,7 @@
           click.target = "_blank";
 
           if (!completedErasing) {
-            analytics('CompletedInteraction')
+            analytics("CompletedInteraction");
             completedErasing = true;
           }
 
@@ -133,20 +133,18 @@
           document.body.appendChild(click);
         }
         function analytics(i) {
-          if (i == "FirstInteraction") {
-            console.log('entrou 1')
+          if (i === "FirstInteraction") {
             ga("send", {
               hitType: "event",
               eventCategory: categoryGA,
-              eventAction: nomeGA,
+              eventAction: nameGA,
               eventLabel: "inicio_interacao"
             });
-          } else if (i == "CompletedInteraction") {
-            console.log('entrou 2')
+          } else if (i === "CompletedInteraction") {
             ga("send", {
               hitType: "event",
               eventCategory: categoryGA,
-              eventAction: nomeGA,
+              eventAction: nameGA,
               eventLabel: "termino_interacao"
             });
           }
