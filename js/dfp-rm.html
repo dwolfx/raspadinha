@@ -118,16 +118,14 @@
       document.body.appendChild(click);
 
       function analytics(i) {
-        if (i == "FirstInteraction") {
-          console.log("entrou 1");
+        if (i === "FirstInteraction") {
           ga("send", {
             hitType: "event",
             eventCategory: categoryGA,
             eventAction: nameGA,
             eventLabel: "inicio_interacao"
           });
-        } else if (i == "CompletedInteraction") {
-          console.log("entrou 2");
+        } else if (i === "CompletedInteraction") {
           ga("send", {
             hitType: "event",
             eventCategory: categoryGA,
@@ -166,7 +164,7 @@
 ></script>
 <script type="text/javascript">
   var trackingPixel1 = "[%PIXELCONTIMP1%]";
-  if (trackingPixel1.indexOf("https") == 0)
+  if (trackingPixel1.indexOf("https") === 0)
     document.write(
       '<iframe src="' +
         trackingPixel1 +
@@ -174,7 +172,7 @@
     );
 
   var trackingPixel2 = "[%PIXELCONTIMP2%]";
-  if (trackingPixel2.indexOf("https") == 0)
+  if (trackingPixel2.indexOf("https") === 0)
     document.write(
       '<iframe src="' +
         trackingPixel2 +
@@ -182,7 +180,7 @@
     );
 
   var trackingPixel3 = "[%PIXELCONTIMP3%]";
-  if (trackingPixel3.indexOf("https") == 0)
+  if (trackingPixel3.indexOf("https") === 0)
     document.write(
       '<iframe src="' +
         trackingPixel3 +
