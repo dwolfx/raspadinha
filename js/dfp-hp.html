@@ -12,7 +12,7 @@
     var completedErasing = false;
     var ua = "[%UA%]";
     var categoryGA = "playable_ad_rasp";
-    var nomeGA = "[%nomeGA%]";
+    var nameGA = "[%nomeGA%]";
 
     var dragging = true;
 
@@ -122,7 +122,7 @@
           ga("send", {
             hitType: "event",
             eventCategory: categoryGA,
-            eventAction: nomeGA,
+            eventAction: nameGA,
             eventLabel: "inicio_interacao"
           });
         } else if (i == "CompletedInteraction") {
@@ -130,7 +130,7 @@
           ga("send", {
             hitType: "event",
             eventCategory: categoryGA,
-            eventAction: nomeGA,
+            eventAction: nameGA,
             eventLabel: "termino_interacao"
           });
         }

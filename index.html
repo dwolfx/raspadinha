@@ -25,7 +25,7 @@
         var completedErasing = false;
         var ua = "UA-65019374-4";
         var categoryGA = "playable_ad_rasp";
-        var nomeGA = "rasp_globoplay-house";
+        var nameGA = "rasp_globoplay-house";
         // var anuncianteKrux = 'play_raspadinha'
         // var campanhaKrux = 'play_raspadinha_house'
 
@@ -138,7 +138,7 @@
             ga("send", {
               hitType: "event",
               eventCategory: categoryGA,
-              eventAction: nomeGA,
+              eventAction: nameGA,
               eventLabel: "inicio_interacao"
             });
           } else if (i == "CompletedInteraction") {
@@ -146,7 +146,7 @@
             ga("send", {
               hitType: "event",
               eventCategory: categoryGA,
-              eventAction: nomeGA,
+              eventAction: nameGA,
               eventLabel: "termino_interacao"
             });
           }
