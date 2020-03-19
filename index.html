@@ -134,7 +134,6 @@
         }
         function analytics(i) {
           if (i == "FirstInteraction") {
-            console.log("entrou 1");
             ga("send", {
               hitType: "event",
               eventCategory: categoryGA,
@@ -142,7 +141,6 @@
               eventLabel: "inicio_interacao"
             });
           } else if (i == "CompletedInteraction") {
-            console.log("entrou 2");
             ga("send", {
               hitType: "event",
               eventCategory: categoryGA,
