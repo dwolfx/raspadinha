@@ -133,14 +133,14 @@
           document.body.appendChild(click);
         }
         function analytics(i) {
-          if (i == "FirstInteraction") {
+          if (i === "FirstInteraction") {
             ga("send", {
               hitType: "event",
               eventCategory: categoryGA,
               eventAction: nameGA,
               eventLabel: "inicio_interacao"
             });
-          } else if (i == "CompletedInteraction") {
+          } else if (i === "CompletedInteraction") {
             ga("send", {
               hitType: "event",
               eventCategory: categoryGA,
