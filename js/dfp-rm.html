@@ -12,7 +12,7 @@
     var completedErasing = false;
     var ua = "[%UA%]";
     var categoryGA = "playable_ad_rasp";
-    var nomeGA = "[%nomeGA%]";
+    var nameGA = "[%nomeGA%]";
 
     var dragging = true;
 
@@ -52,45 +52,22 @@
     app.stage.on("pointermove", pointerMove);
 
     function analytics(i) {
-      if (i === "FirstInteraction") {
-        console.log("entrou 1");
-        ga("send", {
-          hitType: "event",
-          eventCategory: categoryGA,
-          eventAction: nomeGA,
-          eventLabel: "inicio_interacao"
-        });
-      } else if (i === "CompletedInteraction") {
-        console.log("entrou 2");
-        ga("send", {
-          hitType: "event",
-          eventCategory: categoryGA,
-          eventAction: nomeGA,
-          eventLabel: "termino_interacao"
-        });
+        if (i === "FirstInteraction") {
+          ga("send", {
+            hitType: "event",
+            eventCategory: categoryGA,
+            eventAction: nameGA,
+            eventLabel: "inicio_interacao"
+          });
+        } else if (i === "CompletedInteraction") {
+          ga("send", {
+            hitType: "event",
+            eventCategory: categoryGA,
+            eventAction: nameGA,
+            eventLabel: "termino_interacao"
+          });
+        }
       }
-    }
-    (function(i, s, o, g, r, a, m) {
-        i["GoogleAnalyticsObject"] = r;
-        (i[r] =
-          i[r] ||
-          function() {
-            (i[r].q = i[r].q || []).push(arguments);
-          }),
-          (i[r].l = 1 * new Date());
-        (a = s.createElement(o)), (m = s.getElementsByTagName(o)[0]);
-        a.async = 1;
-        a.src = g;
-        m.parentNode.insertBefore(a, m);
-      })(
-        window,
-        document,
-        "script",
-        "https://www.google-analytics.com/analytics.js",
-        "ga"
-      );
-
-      ga("create", ua, "auto");
 
     function pointerMove(event) {
       if (!dragging) return;
@@ -158,14 +135,37 @@
       click.appendChild(div);
       document.body.appendChild(click);
 
-      
+      (function(i, s, o, g, r, a, m) {
+        i["GoogleAnalyticsObject"] = r;
+        (i[r] =
+          i[r] ||
+          function() {
+            (i[r].q = i[r].q || []).push(arguments);
+          }),
+          (i[r].l = 1 * new Date());
+        (a = s.createElement(o)), (m = s.getElementsByTagName(o)[0]);
+        a.async = 1;
+        a.src = g;
+        m.parentNode.insertBefore(a, m);
+      })(
+        window,
+        document,
+        "script",
+        "https://www.google-analytics.com/analytics.js",
+        "ga"
+      );
+
+      ga("create", ua, "auto");
     }
   }
 </script>
-<script src="./js/pixi.min.js" onload="playGame()"></script>
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/5.2.0/pixi.js"
+  onload="playGame()"
+></script>
 <script type="text/javascript">
   var trackingPixel1 = "[%PIXELCONTIMP1%]";
-  if (trackingPixel1.indexOf("https") === 0)
+  if (trackingPixel1.indexOf("https") == 0)
     document.write(
       '<iframe src="' +
         trackingPixel1 +
@@ -173,7 +173,7 @@
     );
 
   var trackingPixel2 = "[%PIXELCONTIMP2%]";
-  if (trackingPixel2.indexOf("https") === 0)
+  if (trackingPixel2.indexOf("https") == 0)
     document.write(
       '<iframe src="' +
         trackingPixel2 +
@@ -181,7 +181,7 @@
     );
 
   var trackingPixel3 = "[%PIXELCONTIMP3%]";
-  if (trackingPixel3.indexOf("https") === 0)
+  if (trackingPixel3.indexOf("https") == 0)
     document.write(
       '<iframe src="' +
         trackingPixel3 +
