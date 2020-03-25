@@ -9,10 +9,11 @@
     var RADIUS = 20;
     var URL = "%%CLICK_URL_ESC%%%%DEST_URL%%";
     var startedErasing = false;
+    var halfErasing = false;
     var completedErasing = false;
     var ua = "[%UA%]";
     var categoryGA = "playable_ad_rasp";
-    var nomeGA = "[%nomeGA%]";
+    var nameGA = "[%nomeGA%]";
 
     var dragging = true;
 
@@ -56,14 +57,21 @@
         ga("send", {
           hitType: "event",
           eventCategory: categoryGA,
-          eventAction: nomeGA,
+          eventAction: nameGA,
           eventLabel: "inicio_interacao"
+        });
+      } else if(i === "HalfInteraction") {
+        ga("send", {
+          hitType: "event",
+          eventCategory: categoryGA,
+          eventAction: nameGA,
+          eventLabel: "metade_interacao"
         });
       } else if (i === "CompletedInteraction") {
         ga("send", {
           hitType: "event",
           eventCategory: categoryGA,
-          eventAction: nomeGA,
+          eventAction: nameGA,
           eventLabel: "termino_interacao"
         });
       }
@@ -107,7 +115,10 @@
         analytics("FirstInteraction");
         startedErasing = true;
       }
-
+			if (!halfErasing && paintedPercentage >= 50 ){
+        halfErasing = true
+        analytics("HalfInteraction");
+      }
       if (paintedPercentage >= REVEAL_PERCENTAGE) {
         dragging = false;
         reveal(renderTexture);
